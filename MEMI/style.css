@@ -327,3 +327,74 @@ footer {
     color: var(--text-light);
     font-size: 1rem;
 }
+footer .contacts {
+    flex: 1 1 260px;
+    min-width: 220px;
+    text-align: left;
+}
+footer .contacts h2 {
+    margin-bottom: 0.7rem;
+    color: var(--primary-orange);
+    font-size: 1.17rem;
+}
+
+footer .contacts ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1rem;
+}
+
+footer .contacts li {
+    margin-bottom: 0.4rem;
+}
+footer .contacts li strong {
+    min-width: 66px;
+    color: var(--primary-orange);
+}
+footer .contacts li a {
+    color: var(--primary-orange);
+    text-decoration: none;
+    font-weight: bold;
+}
+footer .contacts li a:hover {
+    text-decoration: underline;
+}
+
+.footer-links {
+    margin: 1.5rem 0 0 0;
+    text-align: left;
+    padding-left: 2rem;
+}
+.footer-links h2 {
+    font-size: 1.1rem;
+    color: var(--primary-orange);
+    margin-bottom: 0.5rem;
+}
+.footer-links ul {
+    list-style: none;
+    margin: 0 0 0.5rem 0;
+    padding: 0;
+    font-size: 0.98rem;
+    column-count: 2;
+    column-gap: 1.7rem;
+}
+.footer-links li {
+    margin-bottom: 0.1em;
+}
+.footer-links a {
+    color: var(--primary-orange);
+    text-decoration: underline;
+}
+.footer-links .brand-image-links {
+    font-size: 0.95rem;
+    margin-top: 0.6em;
+}
+.footer-links .brand-image-links span {
+    display: inline-block;
+    margin: 0 0.4em 0.2em 0;
+}
+
+.footer-copy {
+    margin-top: 1.2rem;
+}
