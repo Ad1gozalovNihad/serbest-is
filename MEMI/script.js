@@ -44,3 +44,111 @@ const aboutBtn = document.getElementById("about-btn");
 
 let currentCategory = "women";
 let cart = {};
+function renderCarousel(category) {
+    carousel.innerHTML = "";
+    CLOTHES_DATA[category].forEach(cloth => {
+        const card = document.createElement("div");
+        card.className = "carousel-card";
+        card.innerHTML = `
+            <img src="${cloth.img}" alt="${cloth.name}">
+            <div class="clothes-name">${cloth.name}</div>
+            <div class="clothes-price">${cloth.price} ₼</div>
+            <button class="add-to-cart" data-id="${cloth.id}" data-cat="${category}">Səbətə at</button>
+        `;
+        carousel.appendChild(card);
+    });
+}
+renderCarousel(currentCategory);
+
+function updateCarouselTitle(category) {
+    if (category === "women") carouselTitle.textContent = "Qadın Geyimləri";
+    else if (category === "men") carouselTitle.textContent = "Kişi Geyimləri";
+    else if (category === "children") carouselTitle.textContent = "Uşaq Geyimləri";
+}
+
+document.querySelectorAll(".category-btn").forEach(btn => {
+    btn.addEventListener("click", function () {
+        document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentCategory = btn.getAttribute("data-category");
+        updateCarouselTitle(currentCategory);
+        renderCarousel(currentCategory);
+    });
+});
+
+document.getElementById("carousel-left").onclick = () => {
+    carousel.scrollBy({ left: -280, behavior: "smooth" });
+};
+document.getElementById("carousel-right").onclick = () => {
+    carousel.scrollBy({ left: 280, behavior: "smooth" });
+};
+
+carousel.addEventListener("click", function (e) {
+    if (e.target.classList.contains("add-to-cart")) {
+        const id = e.target.getAttribute("data-id");
+        const cat = e.target.getAttribute("data-cat");
+        const item = CLOTHES_DATA[cat].find(c => c.id === id);
+        if (!cart[id]) {
+            cart[id] = { ...item, count: 1, cat: cat };
+        } else {
+            cart[id].count++;
+        }
+        updateCartCount();
+    }
+});
+
+function updateCartCount() {
+    let count = 0;
+    for (const k in cart) count += cart[k].count;
+    cartCount.textContent = count;
+}
+
+cartBtn.onclick = () => {
+    renderCart();
+    cartModal.style.display = "flex";
+};
+closeCartBtn.onclick = () => {
+    cartModal.style.display = "none";
+};
+window.addEventListener("click", function (e) {
+    if (e.target === cartModal) cartModal.style.display = "none";
+});
+
+function renderCart() {
+    cartItemsList.innerHTML = "";
+    let total = 0;
+    for (const id in cart) {
+        const item = cart[id];
+        total += item.price * item.count;
+        const li = document.createElement("li");
+        li.innerHTML = `
+            <img src="${item.img}" alt="${item.name}">
+            <div class="cart-item-info">${item.name} <span>x${item.count}</span></div>
+            <button class="cart-item-remove" data-id="${id}">&times;</button>
+        `;
+        cartItemsList.appendChild(li);
+    }
+    cartTotal.textContent = "Cəmi: " + total + " ₼";
+    
+    cartItemsList.querySelectorAll(".cart-item-remove").forEach(btn => {
+        btn.onclick = function () {
+            const id = btn.getAttribute("data-id");
+            delete cart[id];
+            updateCartCount();
+            renderCart();
+        };
+    });
+}
+
+modeToggle.onclick = () => {
+    document.body.classList.toggle("dark");
+    if (document.body.classList.contains("dark")) {
+        modeToggle.textContent = "☀️";
+    } else {
+        modeToggle.textContent = "🌙";
+    }
+};
+
+aboutBtn.addEventListener('click', () => {
+    document.getElementById("footer").scrollIntoView({ behavior: "smooth" });
+});
